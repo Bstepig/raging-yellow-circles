@@ -9,12 +9,39 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 import random
 
 
-class Main(QMainWindow):
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(358, 295)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.A = QtWidgets.QPushButton(self.centralwidget)
+        self.A.setGeometry(QtCore.QRect(140, 130, 75, 23))
+        self.A.setObjectName("A")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(0, 0, 361, 301))
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.frame.raise_()
+        self.A.raise_()
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.A.setText(_translate("MainWindow", "Пуск"))
+
+
+class Main(QMainWindow, Ui_MainWindow):
     circles = []
 
     def __init__(self):
         super().__init__()
-        uic.loadUi("UI.ui", self)
+        self.setupUi(self)
         self.setStyleSheet("""
         QMainWindow {
         background: #fff;
@@ -41,7 +68,7 @@ class Main(QMainWindow):
 
     def draw(self, qp):
         for i in self.circles:
-            qp.setPen(QColor('yellow'))
+            qp.setPen(QColor(f'#{str(hex(random.randint(0, 255 ** 3)))[2:]}'))
             qp.drawEllipse(*i)
 
 
